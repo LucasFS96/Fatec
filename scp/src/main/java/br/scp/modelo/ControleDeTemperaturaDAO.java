@@ -12,6 +12,7 @@ import br.scp.servico.FabricaDeConexoes;
 
 public class ControleDeTemperaturaDAO {
 	Logger logger = Logger.getLogger(ControleDeTemperaturaDAO.class);
+	
 	public int adiciona(String cnpj,ControleDeTemperatura controleDeTemperatura){
 		PreparedStatement ps;
 		int codigoRetorno=0;
@@ -38,7 +39,7 @@ public class ControleDeTemperaturaDAO {
 		java.sql.PreparedStatement ps;
 		int codigoretorno = 0;
 		try (Connection conn = new FabricaDeConexoes().getConnection()) {
-			ps= conn.prepareStatement ("delete from empresa where cnpj = ?");
+			ps= conn.prepareStatement ("delete from controledetemperatura where empresa_cnpj = ?");
 			ps.setString(1, cnpj);
 			codigoretorno = ps.executeUpdate();
 			}
@@ -49,21 +50,19 @@ public class ControleDeTemperaturaDAO {
 	
 	}
 	
-	public static Empresa consultaEmpresa(String cnpj) {
-		Empresa empresa = null;
+	public static ControleDeTemperatura consulta(String cnpj) {
 		java.sql.PreparedStatement ps;
+		ControleDeTemperatura controleDeTemperatura = null;
 		try (Connection conn = new FabricaDeConexoes().getConnection()) {
-			ps = conn.prepareStatement("select * from empresa where cnpj = ?");
+			ps = conn.prepareStatement("select * from controledetemperatura where cnpj = ?");
 			ps.setString(1, cnpj);
 			ResultSet resultSet = ps.executeQuery();
 			while (resultSet.next()) {
-				empresa = new Empresa();
-				empresa.setCnpj(resultSet.getString("cnpj"));
-				empresa.setRazaoSocial(resultSet.getString("razaoSocial"));
-				empresa.setEndereco(resultSet.getString("endereco"));
-				empresa.setTelefone(resultSet.getString("telefone"));
-				empresa.setHorarioEntrada(resultSet.getInt("horarioEntrada"));
-				empresa.setHorarioSaida(resultSet.getInt("horarioSaida"));
+				controleDeTemperatura = new ControleDeTemperatura();
+				controleDeTemperatura.setTemperaturaMaxima(resultSet.getInt("temperaturaMaxima"));
+				controleDeTemperatura.setHorarioInicio(resultSet.getInt("horarioInicio"));
+				controleDeTemperatura.setHorarioTermino(resultSet.getInt("horarioTermino"));
+				
 			}
 			resultSet.close();
 			ps.close();
@@ -71,6 +70,6 @@ public class ControleDeTemperaturaDAO {
 			throw new RuntimeException(e);
 		}
 		
-		return empresa;
+		return controleDeTemperatura;
 	}
 }

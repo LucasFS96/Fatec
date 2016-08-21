@@ -12,13 +12,14 @@ import br.scp.servico.FabricaDeConexoes;
 
 public class EmpresaDAO {
 	Logger logger = Logger.getLogger(EmpresaDAO.class);
-	public int adiciona(Empresa empresa){
+
+	public int adiciona(Empresa empresa) {
 		PreparedStatement ps;
-		int codigoRetorno=0;
-		try (Connection conn = new FabricaDeConexoes().getConnection()){
+		int codigoRetorno = 0;
+		try (Connection conn = new FabricaDeConexoes().getConnection()) {
 			ps = (PreparedStatement) conn.prepareStatement(
 					"insert into empresa (cnpj, razaoSocial, endereco, telefone, horarioEntrada, horarioSaida) values(?,?,?,?,?,?)");
-			ps.setString(1,empresa.getCnpj());
+			ps.setString(1, empresa.getCnpj());
 			ps.setString(2, empresa.getRazaoSocial());
 			ps.setString(3, empresa.getEndereco());
 			ps.setString(4, empresa.getTelefone());
@@ -28,28 +29,28 @@ public class EmpresaDAO {
 			logger.info("codigo de retorno do metodo adiciona empresa = " + codigoRetorno);
 
 			ps.close();
-			
-		} catch (SQLException e){
-				throw new RuntimeException(e);
-			}
+
+		} catch (SQLException e) {
+			logger.info("metodo adiciona empresa = " + e.getMessage());
+			throw new RuntimeException(e);
+		}
 		return codigoRetorno;
 	}
-	
-	public int exclui (String cnpj) {
+
+	public int exclui(String cnpj) {
 		java.sql.PreparedStatement ps;
 		int codigoretorno = 0;
 		try (Connection conn = new FabricaDeConexoes().getConnection()) {
-			ps= conn.prepareStatement ("delete from empresa where cnpj = ?");
+			ps = conn.prepareStatement("delete from empresa where cnpj = ?");
 			ps.setString(1, cnpj);
 			codigoretorno = ps.executeUpdate();
-			}
-		catch (SQLException e){
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-	return codigoretorno;
-	
+		return codigoretorno;
+
 	}
-	
+
 	public static Empresa consultaEmpresa(String cnpj) {
 		Empresa empresa = null;
 		java.sql.PreparedStatement ps;
@@ -71,7 +72,7 @@ public class EmpresaDAO {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 		return empresa;
 	}
 }

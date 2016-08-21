@@ -55,8 +55,8 @@ public class Formulario extends JFrame {
 		
 		// Dimensiona a tela
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 600) / 2, (screenSize.height - 490) / 2,
-				600, 490);// largura x altura
+		setBounds((screenSize.width - 650) / 2, (screenSize.height - 490) / 2,
+				650, 490);// largura x altura
 
 		// registro no listener dos objetos controlados
 		controle = new Controle();
@@ -298,7 +298,7 @@ public class Formulario extends JFrame {
 		if (txtMensagem == null) {
 			txtMensagem = new JTextField();
 			txtMensagem.setSize(550, 40); // largura x altura
-			txtMensagem.setLocation(10, 370); // horizontal x vertical
+			txtMensagem.setLocation(40, 355); // horizontal x vertical
 			txtMensagem.setBorder(javax.swing.BorderFactory.createTitledBorder(
 					null, "Mensagem",
 					javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
